@@ -6,7 +6,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
 import warnings
 
-# Importar módulos personalizados
 from data_loader import DataLoader
 from data_preprocessor import DataPreprocessor
 from model_trainer import ModelTrainer
@@ -14,44 +13,64 @@ from visualization import Visualizer
 
 warnings.filterwarnings('ignore')
 
-# Configuração de visualização
 sns.set_style("whitegrid")
 plt.rcParams['figure.figsize'] = (12, 6)
+
 
 def main():
     print("="*60)
     print("ANÁLISE DO STUDENT PERFORMANCE DATASET")
     print("="*60)
-
+    
     # 1. CARREGAR E EXPLORAR DADOS
     loader = DataLoader('./dataset/student-mat.csv')
     df = loader.load_data()
     loader.explore_dataset(df)
-
-    # 2. CRIAR ATRIBUTO CLASSE
+    
+    # 2. IDENTIFICAR OUTLIERS (antes de criar a classe)
+    visualizer = Visualizer()
+    numeric_columns = df.select_dtypes(include=[np.number]).columns.tolist()
+    outliers_info = visualizer.plot_outliers(df, numeric_columns, method='iqr')
+    
+    # 3. CRIAR ATRIBUTO CLASSE
     df = loader.create_target_class(df)
-
-    # 3. PREPARAR DADOS
+    
+    # 4. PREPARAR DADOS
     preprocessor = DataPreprocessor()
     X_train, X_test, y_train, y_test = preprocessor.prepare_data(df)
-
-    # 4. TREINAR E AVALIAR MODELOS
+    
+    # 5. TREINAR E AVALIAR MODELOS
     trainer = ModelTrainer()
     resultados = trainer.train_and_evaluate(X_train, X_test, y_train, y_test)
-
-    # 5. VISUALIZAR RESULTADOS
-    visualizer = Visualizer()
+    
+    # 6. VISUALIZAÇÕES
     visualizer.plot_class_distribution(df)
     visualizer.plot_comparison(resultados)
-
-    # 6. SALVAR RESULTADOS
+    
+    # 7. GRÁFICO DE PREDIÇÕES VS REAL
+    predictions = trainer.get_predictions()
+    visualizer.plot_predictions_vs_real(predictions, y_test)
+    
+    # 8. GRÁFICO DE IMPORTÂNCIA DAS FEATURES
+    feature_importance = trainer.get_feature_importance()
+    visualizer.plot_feature_importance(feature_importance, top_n=15)
+    
+    # 9. SALVAR RESULTADOS
     df_resultados = pd.DataFrame(resultados)
-    df_resultados.to_csv('resultados/resultados_comparacao.csv', index=False)
+    df_resultados.to_csv('resultados_comparacao.csv', index=False)
     print("\n✓ Resultados salvos em: resultados_comparacao.csv")
-
+    
     print("\n" + "="*60)
     print("ANÁLISE CONCLUÍDA!")
     print("="*60)
+    print("\nArquivos gerados:")
+    print("  • distribuicao_classes.png")
+    print("  • comparacao_algoritmos.png")
+    print("  • predicoes_vs_real.png")
+    print("  • importancia_features.png")
+    print("  • analise_outliers.png")
+    print("  • resultados_comparacao.csv")
+
 
 if __name__ == "__main__":
     main()

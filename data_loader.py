@@ -17,15 +17,12 @@ class DataLoader:
         print("CARACTERIZAÇÃO DO DATASET")
         print("="*60)
 
-        # a. Quantidade de atributos
         print(f"\na) Quantidade de atributos: {df.shape[1]}")
 
-        # b. Tipo de cada atributo
         print(f"\nb) Tipos de atributos:")
         for col, tipo in df.dtypes.items():
             print(f"   {col}: {tipo}")
 
-        # c. Intervalo ou conjunto de valores
         print(f"\nc) Intervalo/Conjunto de valores:")
         print("\nAtributos Numéricos:")
         print(df.describe())
@@ -35,7 +32,6 @@ class DataLoader:
             valores_unicos = df[col].unique()
             print(f"   {col}: {valores_unicos}")
 
-        # d. Valores faltantes
         print(f"\nd) Valores faltantes por atributo:")
         valores_faltantes = df.isnull().sum()
         total_faltantes = valores_faltantes.sum()
@@ -44,7 +40,6 @@ class DataLoader:
         else:
             print("   ✓ Não há valores faltantes no dataset!")
 
-        # e. Atributo mais desbalanceado
         print(f"\ne) Análise de desbalanceamento:")
         desbalanceamentos = {}
         for col in df.columns:
@@ -52,13 +47,12 @@ class DataLoader:
             if len(distribuicao) > 1:
                 desbalanceamento = (distribuicao.max() - distribuicao.min()) / len(df)
                 desbalanceamentos[col] = desbalanceamento
-
+        
         atributo_mais_desbalanceado = max(desbalanceamentos, key=desbalanceamentos.get)
         print(f"   Atributo mais desbalanceado: {atributo_mais_desbalanceado}")
         print(f"   Distribuição:")
         print(df[atributo_mais_desbalanceado].value_counts())
 
-        # f. Quantidade de instâncias
         print(f"\nf) Quantidade de instâncias/exemplos: {df.shape[0]}")
 
     def create_target_class(self, df):

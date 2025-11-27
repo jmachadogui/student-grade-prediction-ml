@@ -79,35 +79,138 @@ class Visualizer:
         print("\n✓ Gráfico comparativo salvo: comparacao_algoritmos.png")
         plt.close()
     
+    def plot_real_vs_pred(self, models_predictions, y_test):
+        """Gera uma imagem individual para cada modelo com gráficos grandes."""
+        target_names = ['Reprovado', 'Aprovado']
+        samples = np.arange(len(y_test))
+
+        for model_name, y_pred in models_predictions.items():
+            
+            # Cria figura grande (2 linhas, 1 coluna)
+            fig, axes = plt.subplots(2, 1, figsize=(12, 14))
+            ax1, ax2 = axes
+
+            # --------------------------------------------------
+            # 1. GRÁFICO REAL VS PREVISTO (GRANDE)
+            # --------------------------------------------------
+            ax1.plot(samples, y_test, 'o-', 
+                     label='Real', alpha=0.8, linewidth=3, markersize=7)
+
+            ax1.plot(samples, y_pred, 's-', 
+                     label='Previsto', color='#2ecc71', alpha=0.8, linewidth=3, markersize=6)
+
+            ax1.fill_between(
+                samples, y_test, y_pred,
+                where=(y_test != y_pred),
+                color='red', alpha=0.2, label='Erro'
+            )
+
+            ax1.set_title(f"{model_name} — Real vs Previsto", fontsize=20, weight='bold')
+            ax1.set_xlabel("Amostras de Teste", fontsize=14)
+            ax1.set_ylabel("Classe", fontsize=14)
+            ax1.set_yticks([0, 1])
+            ax1.set_yticklabels(target_names, fontsize=12)
+            ax1.legend(fontsize=12)
+            ax1.grid(True, alpha=0.3)
+            ax1.tick_params(axis='both', labelsize=12)
+
+            # --------------------------------------------------
+            # 2. MATRIZ DE CONFUSÃO (GRANDE)
+            # --------------------------------------------------
+            cm = confusion_matrix(y_test, y_pred)
+
+            sns.heatmap(
+                cm, annot=True, fmt='d', cmap='Blues',
+                xticklabels=target_names,
+                yticklabels=target_names,
+                cbar=False, annot_kws={'size': 18}, ax=ax2
+            )
+
+            ax2.set_title("Matriz de Confusão", fontsize=20, weight='bold')
+            ax2.set_xlabel("Previsto", fontsize=14)
+            ax2.set_ylabel("Real", fontsize=14)
+            ax2.tick_params(axis='both', labelsize=12)
+
+            accuracy = np.sum(np.diag(cm)) / np.sum(cm)
+            errors = np.sum(y_test != y_pred)
+
+            ax2.text(
+                0.5, -0.15,
+                f"Acurácia: {accuracy:.2%}   |   Erros: {errors}/{len(y_test)}",
+                ha='center', va='top', transform=ax2.transAxes,
+                fontsize=14, weight='bold'
+            )
+
+            # --------------------------------------------------
+            # SALVAR FIGURA
+            # --------------------------------------------------
+            filename = f"resultados/{model_name.replace(' ', '_')}.png"
+            plt.tight_layout()
+            plt.savefig(filename, dpi=300, bbox_inches='tight')
+            plt.close()
+
+            print(f"✓ Imagem salva: {filename}")
+
     def plot_predictions_vs_real(self, models_predictions, y_test):
         """Plota predições vs valores reais para cada modelo"""
         n_models = len(models_predictions)
-        fig, axes = plt.subplots(1, n_models, figsize=(6*n_models, 5))
-        
-        if n_models == 1:
-            axes = [axes]
-        
+
+        # Criar figura com 2 linhas: linha superior com gráficos de linha, inferior com matrizes
+        fig = plt.figure(figsize=(10*n_models, 12))
+        gs = fig.add_gridspec(2, n_models, hspace=0.35, wspace=0.3)
+
         target_names = ['Reprovado', 'Aprovado']
-        
+
         for idx, (model_name, y_pred) in enumerate(models_predictions.items()):
-            # Criar matriz de confusão
+            # GRÁFICO SUPERIOR: Linha Real vs Previsto
+            ax1 = fig.add_subplot(gs[0, idx])
+
+            # Criar índice de amostras
+            samples = np.arange(len(y_test))
+
+            # Plotar linha real
+            ax1.plot(samples, y_test, 'o-', label='Real', 
+                    color='#2ecc71', linewidth=3, markersize=6, alpha=0.8)
+
+            # Plotar linha prevista
+            ax1.plot(samples, y_pred, 's-', label='Previsto', 
+                    color='#e74c3c', linewidth=3, markersize=5, alpha=0.8)
+
+            ax1.set_title(f'{model_name}\nReal vs Previsto', fontsize=16, weight='bold')
+            ax1.set_xlabel('Amostras de Teste', fontsize=14)
+            ax1.set_ylabel('Classe', fontsize=14)
+            ax1.set_yticks([0, 1])
+            ax1.set_yticklabels(target_names, fontsize=12)
+            ax1.tick_params(axis='both', labelsize=12)
+            ax1.legend(loc='upper right', fontsize=12)
+            ax1.grid(True, alpha=0.3)
+
+            # Adicionar linha de fundo para destacar diferenças
+            ax1.fill_between(samples, y_test, y_pred, 
+                           where=(y_test != y_pred), 
+                           color='red', alpha=0.2, label='Erro')
+
+            # GRÁFICO INFERIOR: Matriz de Confusão
+            ax2 = fig.add_subplot(gs[1, idx])
+
             cm = confusion_matrix(y_test, y_pred)
-            
-            # Plotar matriz de confusão
             sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', 
                        xticklabels=target_names, 
                        yticklabels=target_names,
-                       ax=axes[idx], cbar=False)
-            axes[idx].set_title(f'{model_name}\nMatriz de Confusão')
-            axes[idx].set_ylabel('Real')
-            axes[idx].set_xlabel('Predito')
-            
-            # Adicionar acurácia no título
+                       ax=ax2, cbar=False, annot_kws={'size': 16})
+            ax2.set_title(f'Matriz de Confusão', fontsize=15, weight='bold')
+            ax2.set_ylabel('Real', fontsize=14)
+            ax2.set_xlabel('Previsto', fontsize=14)
+            ax2.tick_params(axis='both', labelsize=12)
+
+            # Adicionar métricas
             accuracy = np.sum(np.diag(cm)) / np.sum(cm)
-            axes[idx].text(0.5, -0.15, f'Acurácia: {accuracy:.2%}', 
-                          ha='center', va='top', transform=axes[idx].transAxes,
-                          fontsize=10, weight='bold')
-        
+            errors = np.sum(y_test != y_pred)
+            ax2.text(0.5, -0.15, 
+                    f'Acurácia: {accuracy:.2%} | Erros: {errors}/{len(y_test)}', 
+                    ha='center', va='top', transform=ax2.transAxes,
+                    fontsize=13, weight='bold')
+
         plt.tight_layout()
         plt.savefig('resultados/predicoes_vs_real.png', dpi=300, bbox_inches='tight')
         print("\n✓ Gráfico salvo: predicoes_vs_real.png")

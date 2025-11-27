@@ -1,3 +1,4 @@
+import sys
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -18,8 +19,21 @@ plt.rcParams['figure.figsize'] = (12, 6)
 
 
 def main():
+    encoding_type = 'le'  # default
+    
+    if len(sys.argv) > 1:
+        arg = sys.argv[1].lower()
+        if arg in ['le', 'ohe']:
+            encoding_type = arg
+        else:
+            print("Uso: python3 main.py [le|ohe]")
+            print("  le  - Label Encoding (padrão)")
+            print("  ohe - One-Hot Encoding")
+            sys.exit(1)
+    
     print("="*60)
     print("ANÁLISE DO STUDENT PERFORMANCE DATASET")
+    print(f"Encoding selecionado: {'Label Encoding' if encoding_type == 'le' else 'One-Hot Encoding'}")
     print("="*60)
     
     # 1. CARREGAR E EXPLORAR DADOS
@@ -35,8 +49,8 @@ def main():
     # 3. CRIAR ATRIBUTO CLASSE
     df = loader.create_target_class(df)
     
-    # 4. PREPARAR DADOS
-    preprocessor = DataPreprocessor()
+    # 4. PREPARAR DADOS com o encoding escolhido
+    preprocessor = DataPreprocessor(encoding_type=encoding_type)
     X_train, X_test, y_train, y_test = preprocessor.prepare_data(df)
     
     # 5. TREINAR E AVALIAR MODELOS
@@ -49,7 +63,7 @@ def main():
     
     # 7. GRÁFICO DE PREDIÇÕES VS REAL
     predictions = trainer.get_predictions()
-    visualizer.plot_predictions_vs_real(predictions, y_test)
+    visualizer.plot_real_vs_pred(predictions, y_test)
     
     # 8. GRÁFICO DE IMPORTÂNCIA DAS FEATURES
     feature_importance = trainer.get_feature_importance()
@@ -57,8 +71,9 @@ def main():
     
     # 9. SALVAR RESULTADOS
     df_resultados = pd.DataFrame(resultados)
-    df_resultados.to_csv('resultados_comparacao.csv', index=False)
-    print("\n✓ Resultados salvos em: resultados_comparacao.csv")
+    output_filename = f'resultados_comparacao_{encoding_type}.csv'
+    df_resultados.to_csv(output_filename, index=False)
+    print(f"\n✓ Resultados salvos em: {output_filename}")
     
     print("\n" + "="*60)
     print("ANÁLISE CONCLUÍDA!")
@@ -69,8 +84,7 @@ def main():
     print("  • predicoes_vs_real.png")
     print("  • importancia_features.png")
     print("  • analise_outliers.png")
-    print("  • resultados_comparacao.csv")
-
+    print(f"  • {output_filename}")
 
 if __name__ == "__main__":
     main()

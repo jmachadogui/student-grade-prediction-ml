@@ -53,7 +53,7 @@ class BaseModel:
         print(f"  Tempo:     {self.results['Tempo (s)']:.4f} segundos")
 
         print(f"\nRelatório por classe:")
-        target_names = ['Reprovado', 'Aprovado']
+        target_names = ['Aprovado', 'Reprovado']
         print(classification_report(y_test, y_pred, target_names=target_names, zero_division=0))
 
     def predict(self, X):

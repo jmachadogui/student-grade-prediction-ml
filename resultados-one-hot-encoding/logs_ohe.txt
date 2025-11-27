@@ -1,0 +1,324 @@
+============================================================
+ANÁLISE DO STUDENT PERFORMANCE DATASET
+Encoding selecionado: One-Hot Encoding
+============================================================
+
+✓ Dataset carregado com sucesso!
+Dimensões: 395 instâncias x 33 atributos
+
+============================================================
+CARACTERIZAÇÃO DO DATASET
+============================================================
+
+a) Quantidade de atributos: 33
+
+b) Tipos de atributos:
+   school: object
+   sex: object
+   age: int64
+   address: object
+   famsize: object
+   Pstatus: object
+   Medu: int64
+   Fedu: int64
+   Mjob: object
+   Fjob: object
+   reason: object
+   guardian: object
+   traveltime: int64
+   studytime: int64
+   failures: int64
+   schoolsup: object
+   famsup: object
+   paid: object
+   activities: object
+   nursery: object
+   higher: object
+   internet: object
+   romantic: object
+   famrel: int64
+   freetime: int64
+   goout: int64
+   Dalc: int64
+   Walc: int64
+   health: int64
+   absences: int64
+   G1: int64
+   G2: int64
+   G3: int64
+
+c) Intervalo/Conjunto de valores:
+
+Atributos Numéricos:
+              age        Medu        Fedu  ...          G1          G2          G3
+count  395.000000  395.000000  395.000000  ...  395.000000  395.000000  395.000000
+mean    16.696203    2.749367    2.521519  ...   10.908861   10.713924   10.415190
+std      1.276043    1.094735    1.088201  ...    3.319195    3.761505    4.581443
+min     15.000000    0.000000    0.000000  ...    3.000000    0.000000    0.000000
+25%     16.000000    2.000000    2.000000  ...    8.000000    9.000000    8.000000
+50%     17.000000    3.000000    2.000000  ...   11.000000   11.000000   11.000000
+75%     18.000000    4.000000    3.000000  ...   13.000000   13.000000   14.000000
+max     22.000000    4.000000    4.000000  ...   19.000000   19.000000   20.000000
+
+[8 rows x 16 columns]
+
+Atributos Categóricos (valores únicos):
+   school: ['GP' 'MS']
+   sex: ['F' 'M']
+   address: ['U' 'R']
+   famsize: ['GT3' 'LE3']
+   Pstatus: ['A' 'T']
+   Mjob: ['at_home' 'health' 'other' 'services' 'teacher']
+   Fjob: ['teacher' 'other' 'services' 'health' 'at_home']
+   reason: ['course' 'other' 'home' 'reputation']
+   guardian: ['mother' 'father' 'other']
+   schoolsup: ['yes' 'no']
+   famsup: ['no' 'yes']
+   paid: ['no' 'yes']
+   activities: ['no' 'yes']
+   nursery: ['yes' 'no']
+   higher: ['yes' 'no']
+   internet: ['no' 'yes']
+   romantic: ['no' 'yes']
+
+d) Valores faltantes por atributo:
+   ✓ Não há valores faltantes no dataset!
+
+e) Análise de desbalanceamento:
+   Atributo mais desbalanceado: higher
+   Distribuição:
+higher
+yes    375
+no      20
+Name: count, dtype: int64
+
+f) Quantidade de instâncias/exemplos: 395
+
+============================================================
+ANÁLISE DE OUTLIERS
+============================================================
+
+✓ Gráfico salvo: analise_outliers.png
+
+Resumo de Outliers (método: IQR):
+------------------------------------------------------------
+
+age:
+  Quantidade: 1
+  Percentual: 0.25%
+  Valores: [22]
+
+Medu:
+  Quantidade: 0
+  Percentual: 0.00%
+
+Fedu:
+  Quantidade: 2
+  Percentual: 0.51%
+  Valores: [0, 0]
+
+traveltime:
+  Quantidade: 8
+  Percentual: 2.03%
+  Valores: [4, 4, 4, 4, 4, 4, 4, 4]
+
+studytime:
+  Quantidade: 27
+  Percentual: 6.84%
+
+failures:
+  Quantidade: 83
+  Percentual: 21.01%
+
+famrel:
+  Quantidade: 26
+  Percentual: 6.58%
+
+freetime:
+  Quantidade: 19
+  Percentual: 4.81%
+
+goout:
+  Quantidade: 0
+  Percentual: 0.00%
+
+Dalc:
+  Quantidade: 18
+  Percentual: 4.56%
+
+Walc:
+  Quantidade: 0
+  Percentual: 0.00%
+
+health:
+  Quantidade: 0
+  Percentual: 0.00%
+
+absences:
+  Quantidade: 15
+  Percentual: 3.80%
+
+G1:
+  Quantidade: 0
+  Percentual: 0.00%
+
+G2:
+  Quantidade: 13
+  Percentual: 3.29%
+
+G3:
+  Quantidade: 0
+  Percentual: 0.00%
+
+============================================================
+CRIAÇÃO DO ATRIBUTO CLASSE/TARGET
+============================================================
+
+Atributo classe criado: Performance
+Baseado em: G3 (nota final)
+Classes:
+Performance
+Aprovado     265
+Reprovado    130
+Name: count, dtype: int64
+
+Distribuição percentual:
+Performance
+Aprovado     67.088608
+Reprovado    32.911392
+Name: proportion, dtype: float64
+
+============================================================
+PREPARAÇÃO DOS DADOS
+============================================================
+Tipo de encoding: One-Hot Encoding
+ONE HOT ENCODING SEND USADO
+
+✓ Dados preparados:
+   Conjunto de treino: 276 exemplos
+   Conjunto de teste: 119 exemplos
+   Features utilizadas: 41
+
+============================================================
+TREINAMENTO E AVALIAÇÃO DE ALGORITMOS
+============================================================
+
+============================================================
+Treinando: Decision Tree
+============================================================
+✓ Treinamento concluído em 0.0016s
+
+Resultados:
+  Acurácia:  0.8824 (88.24%)
+  Precisão:  0.8908
+  Recall:    0.8824
+  F1-Score:  0.8843
+  Tempo:     0.0016 segundos
+
+Relatório por classe:
+              precision    recall  f1-score   support
+
+    Aprovado       0.95      0.88      0.91        80
+   Reprovado       0.78      0.90      0.83        39
+
+    accuracy                           0.88       119
+   macro avg       0.86      0.89      0.87       119
+weighted avg       0.89      0.88      0.88       119
+
+
+============================================================
+Treinando: Random Forest
+============================================================
+✓ Treinamento concluído em 0.0429s
+
+Resultados:
+  Acurácia:  0.9160 (91.60%)
+  Precisão:  0.9176
+  Recall:    0.9160
+  F1-Score:  0.9165
+  Tempo:     0.0429 segundos
+
+Relatório por classe:
+              precision    recall  f1-score   support
+
+    Aprovado       0.95      0.93      0.94        80
+   Reprovado       0.85      0.90      0.88        39
+
+    accuracy                           0.92       119
+   macro avg       0.90      0.91      0.91       119
+weighted avg       0.92      0.92      0.92       119
+
+
+============================================================
+Treinando: Naive Bayes
+============================================================
+✓ Treinamento concluído em 0.0007s
+
+Resultados:
+  Acurácia:  0.7899 (78.99%)
+  Precisão:  0.8031
+  Recall:    0.7899
+  F1-Score:  0.7938
+  Tempo:     0.0007 segundos
+
+Relatório por classe:
+              precision    recall  f1-score   support
+
+    Aprovado       0.88      0.80      0.84        80
+   Reprovado       0.65      0.77      0.71        39
+
+    accuracy                           0.79       119
+   macro avg       0.76      0.78      0.77       119
+weighted avg       0.80      0.79      0.79       119
+
+
+============================================================
+COMPARAÇÃO DE RESULTADOS
+============================================================
+
+Tabela Comparativa:
+    Algoritmo  Acurácia  Precisão   Recall  F1-Score  Tempo (s)
+Decision Tree  0.882353  0.890832 0.882353  0.884263   0.001646
+Random Forest  0.915966  0.917564 0.915966  0.916485   0.042866
+  Naive Bayes  0.789916  0.803124 0.789916  0.793761   0.000704
+
+============================================================
+ANÁLISE FINAL
+============================================================
+
+🏆 MELHOR ALGORITMO: Random Forest
+   Acurácia:  0.9160
+   Precisão:  0.9176
+   Recall:    0.9160
+   F1-Score:  0.9165
+   Tempo:     0.0429s
+
+❌ PIOR ALGORITMO: Naive Bayes
+   Acurácia:  0.7899
+   Precisão:  0.8031
+   Recall:    0.7899
+   F1-Score:  0.7938
+   Tempo:     0.0007s
+
+✓ Gráfico salvo: distribuicao_classes.png
+
+✓ Gráfico comparativo salvo: comparacao_algoritmos.png
+✓ Imagem salva: resultados/Decision_Tree.png
+✓ Imagem salva: resultados/Random_Forest.png
+✓ Imagem salva: resultados/Naive_Bayes.png
+
+✓ Gráfico salvo: importancia_features.png
+
+✓ Resultados salvos em: resultados_comparacao_ohe.csv
+
+============================================================
+ANÁLISE CONCLUÍDA!
+============================================================
+
+Arquivos gerados:
+  • distribuicao_classes.png
+  • comparacao_algoritmos.png
+  • predicoes_vs_real.png
+  • importancia_features.png
+  • analise_outliers.png
+  • resultados_comparacao_ohe.csv

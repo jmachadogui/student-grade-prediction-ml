@@ -1,0 +1,2 @@
+### O script irá salvar as imagens e arquivos gerados nesta pasta, independente do tipo de encoding utilizado.
+Isso significa que os dados serão sobrescritos toda vez que o script for rodado.

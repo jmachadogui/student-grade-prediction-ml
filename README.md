@@ -35,150 +35,38 @@ Após a execução do script, serão gerados alguns arquivos dentro da pasta res
 - importancia_features.png
 
 ### Estrutura e Organização
-
-#### algorithms/
-Contém as implementações de todos os algoritmos de Machine Learning utilizados no projeto.
-__init__.py
-
-Responsabilidade: Inicializador do pacote algorithms
-Funcionalidades:
-
-Torna o diretório um módulo Python
-Facilita imports dos modelos
-
-
-#### base_model.py
-
-Responsabilidade: Define a classe abstrata BaseModel que serve como template para todos os algoritmos
-Funcionalidades:
-
-Interface padronizada com métodos train() e predict()
-Cálculo automático de métricas (acurácia, precisão, recall, F1-score)
-Geração de matrizes de confusão
-Estrutura comum para todos os modelos
-
-
-
-Modelos Implementados
-
-- decision_tree.py: Implementação de Árvore de Decisão
-- naive_bayes.py: Implementação de Naive Bayes (classificador probabilístico)
-- random_forest.py: Implementação de Random Forest (ensemble de árvores)
-
-Cada modelo contém:
-
-Implementação específica do algoritmo usando scikit-learn
-Configuração de hiperparâmetros otimizados
-Métodos de treinamento e predição
-Extração de importância de features (quando aplicável)
-
-## Arquivos na Raiz
-#### data_loader.py
-
-Responsabilidade: Carregamento e exploração inicial do dataset
-Funcionalidades:
-
-Leitura do arquivo CSV
-Análise exploratória dos dados (EDA)
-Estatísticas descritivas
-Criação da classe target (Performance) baseada em G3
-Verificação de dados faltantes
+```
+student-grade-prediction-ml/
+│
+├── algorithms/                      # Implementações dos algoritmos de ML
+│   ├── __init__.py                 # Inicializador do módulo
+│   ├── base_model.py               # Classe base abstrata para todos os modelos
+│   ├── decision_tree.py            # Implementação do Decision Tree
+│   ├── naive_bayes.py              # Implementação do Naive Bayes
+│   └── random_forest.py            # Implementação do Random Forest
+│
+├── dataset/                         # Datasets utilizados
+│   └── (arquivos .csv)             # Dataset de matemática
+│
+├── resultados-label-encoding/       # Amostra de resultados do script usando Label encoding
+│   └── (logs, gráficos e CSVs gerados)   # Outputs do encoding LE
+│
+├── resultados-one-hot-encoding/     # Amostra de resultados do script usando One-Hot Encoding
+│   └── (logs, gráficos e CSVs gerados)   # Outputs do encoding OHE
+│
+├── resultados/                      # Pasta onde o script armazena as imagens e CSVs gerados
+│   └── (gráficos e CSVs gerados)               # Exemplo de output
+│
+├── data_loader.py                   # Carregamento e exploração inicial dos dados
+├── data_preprocessor.py             # Pré-processamento e preparação dos dados
+├── encoding_columns.py              # Configuração de colunas para encoding
+├── main.py                          # Arquivo principal de execução
+├── model_trainer.py                 # Orquestração do treinamento e avaliação
+├── visualization.py                 # Geração de gráficos e análises visuais
+├── requirements.txt                 # Dependências do projeto
+└── README.md                        # Documentação do projeto
+```
 
 
-#### data_preprocessor.py
-
-Responsabilidade: Pré-processamento e transformação dos dados
-Funcionalidades:
-
-Suporte a três tipos de encoding:
-
-Label Encoding (LE): Converte categorias em números ordinais
-One-Hot Encoding (OHE): Cria variáveis dummy para cada categoria
-
-Divisão em conjuntos de treino e teste
-Estratificação da variável target
-Codificação da variável target
-
-
-#### model_trainer.py
-
-Responsabilidade: Orquestração do processo de treinamento
-Funcionalidades:
-
-Instanciação de todos os modelos
-Execução do treinamento para cada algoritmo
-Coleta de métricas de desempenho
-Comparação entre modelos
-Armazenamento das predições
-Extração de importância das features
-
-
-
-#### visualization.py
-
-Responsabilidade: Criação de gráficos e análises visuais
-Funcionalidades:
-
-Gráfico de distribuição de classes
-Comparação de desempenho entre algoritmos
-Análise de outliers (método IQR)
-Gráfico de predições vs valores reais
-Visualização da importância das features
-Matrizes de confusão
-
-
-
-#### main.py
-
-Responsabilidade: Arquivo principal que orquestra todo o pipeline
-Funcionalidades:
-
-Processamento de argumentos da linha de comando
-Execução sequencial de todas as etapas:
-
-Carregamento dos dados
-Análise exploratória
-Identificação de outliers
-Criação da classe target
-Pré-processamento
-Treinamento dos modelos
-Geração de visualizações
-Exportação dos resultados
-
-
-
-
-
-## Diretórios de Resultados
-#### resultados/
-
-Conteúdo: Resultados gerados pelo script são armazenados nesta pasta apenas. Sempre que o script é executado, os dados são sobrescritos
-Arquivos:
-Gráficos PNG (distribuição, comparações, outliers)
-CSV com métricas dos modelos
-
-
-#### resultados-label-encoding/
-
-Conteúdo: Armazena exemplos de resultados gerados usando Label Encoding
-Arquivos:
-
-Gráficos PNG (distribuição, comparações, outliers)
-CSV com métricas dos modelos
-
-
-
-#### resultados-one-hot-encoding/
-
-Conteúdo: Armazena exemplos de resultados gerados usando One-Hot Encoding
-Arquivos:
-
-Gráficos PNG (distribuição, comparações, outliers)
-CSV com métricas dos modelos
-
-
-
-
-
-*As pastas resultados-label-encoding e resultados-one-hot-encoding não são atualizadas pelo script. A única pasta que é atualizada é a resultados/ *
+As pastas de `resultados-one-hot-encoding/`  e `resultados-label-encoding/` não são populadas pelo script automaticamente. Ela foram geradas rodando o script para cada tipo de encoding uma vez e copiando os dados salvos na pasta `resultados/`. Todos os dados da pasta `resultados` são sobrescritos quando o script é executado.
 

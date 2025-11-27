@@ -71,7 +71,7 @@ def main():
     
     # 9. SALVAR RESULTADOS
     df_resultados = pd.DataFrame(resultados)
-    output_filename = f'resultados_comparacao_{encoding_type}.csv'
+    output_filename = f'resultados/resultados_comparacao_{encoding_type}.csv'
     df_resultados.to_csv(output_filename, index=False)
     print(f"\n✓ Resultados salvos em: {output_filename}")
     

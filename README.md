@@ -1,6 +1,7 @@
 ### Setup
 Para poder rodar os scripts, pode ser necessário instalar as dependências.
 Na raiz do projeto, rode:
+
 ```pip install -r requirements.txt```
 
 isso deve instalar as dependências listadas no arquivo:
@@ -14,14 +15,20 @@ isso deve instalar as dependências listadas no arquivo:
 O script principal é o main.py. Por padrão o script irá rodar utilizando Label Encoding no dataset, mas é possível passar um parâmetro para usar OHE. Formas de utilização:
 
 ```python3 main.py``` 
+
 ou 
+
 ```python3 main.py le```
+
 ou 
+
 ```python3 main.py ohe```
 
 le = Label Encoding
 
 ohe = One Hot Encoding
+___
+
 
 Após a execução do script, serão gerados alguns arquivos dentro da pasta resultados. Arquivos gerados:
 - resultados_comparacao_<encoding>.csv

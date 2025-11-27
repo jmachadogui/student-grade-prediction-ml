@@ -20,6 +20,7 @@ ou
 ```python3 main.py ohe```
 
 le = Label Encoding
+
 ohe = One Hot Encoding
 
 Após a execução do script, serão gerados alguns arquivos dentro da pasta resultados. Arquivos gerados:
@@ -36,34 +37,28 @@ Após a execução do script, serão gerados alguns arquivos dentro da pasta res
 ### Estrutura e Organização
 
 student-grade-prediction-ml/
-│
-├── algorithms/                      # Implementações dos algoritmos de ML
-│   ├── __init__.py                 # Inicializador do módulo
-│   ├── base_model.py               # Classe base abstrata para todos os modelos
-│   ├── decision_tree.py            # Implementação do Decision Tree
-│   ├── naive_bayes.py              # Implementação do Naive Bayes
-│   └── random_forest.py            # Implementação do Random Forest
-│
-├── dataset/                         # Datasets utilizados
-│   └── (arquivos .csv)             # Dataset de matemática
-│
-├── resultados-label-encoding/       # Exemplos de resultados usando Label Encoding
-│   └── (gráficos e CSVs gerados)   # Outputs do encoding LE
-│
-├── resultados-one-hot-encoding/     # Exemplos de resultados usando One-Hot Encoding
-│   └── (gráficos e CSVs gerados)   # Outputs do encoding OHE
-│
-├── resultados/                      # resultados e análises gerados pelo script
-│   └── (gráficos e CSVs gerados)            
-│
-├── data_loader.py                   # Carregamento e exploração inicial dos dados
-├── data_preprocessor.py             # Pré-processamento e preparação dos dados
-├── encoding_columns.py              # Configuração de colunas para encoding
-├── main.py                          # Arquivo principal de execução
-├── model_trainer.py                 # Orquestração do treinamento e avaliação
-├── visualization.py                 # Geração de gráficos e análises visuais
-├── requirements.txt                 # Dependências do projeto
-└── README.md                        # Documentação do projeto
+├── algorithms/
+│   ├── __init__.py
+│   ├── base_model.py
+│   ├── decision_tree.py
+│   ├── naive_bayes.py
+│   └── random_forest.py
+├── dataset/
+│   └── student-mat.csv
+├── resultados-label-encoding/
+│   └── (outputs do Label Encoding)
+├── resultados-one-hot-encoding/
+│   └── (outputs do One-Hot Encoding)
+├── resultados/
+│   └── exemplo.txt
+├── data_loader.py
+├── data_preprocessor.py
+├── encoding_columns.py
+├── main.py
+├── model_trainer.py
+├── visualization.py
+├── requirements.txt
+└── README.md
 
 *As pastas resultados-label-encoding e resultados-one-hot-encoding não são atualizadas pelo script. A única pasta que é atualizada é a resultados/ *
 
